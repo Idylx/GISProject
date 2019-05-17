@@ -8,4 +8,3 @@ admin.site.register(Slope,  admin.OSMGeoAdmin)
 admin.site.register(Grenouillere,  admin.OSMGeoAdmin)
 admin.site.register(Parking,  admin.OSMGeoAdmin)
 
-

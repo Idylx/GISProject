@@ -3,7 +3,7 @@ from django.contrib.gis.db import models
 # Create your models here.
 
 
-class Grenouillere(models.model):
+class Grenouillere(models.Model):
     geom = models.MultiPolygonField(srid=21781, null=True)
     capacity = models.IntegerField()
     altitude = models.IntegerField()
@@ -15,7 +15,7 @@ class Grenouillere(models.model):
         db_table= "grenouilleres"
 
 
-class Lift(models.model):
+class Lift(models.Model):
     geom = models.MultiPolygonField(srid=21781, null=True)
     avgqueue = models.IntegerField()
     altstart = models.IntegerField()
@@ -32,7 +32,7 @@ class Lift(models.model):
     def __str__(self):
         return self.name
 
-class Parking(models.model):
+class Parking(models.Model):
     geom = models.MultiPolygonField(srid=21781, null=True)
     capacity = models.IntegerField()
     altitude = models.IntegerField()
@@ -41,7 +41,7 @@ class Parking(models.model):
     class Meta:
         db_table = "parkings"
 
-class Restaurant(models.model):
+class Restaurant(models.Model):
     geom = models.MultiPolygonField(srid=21781, null=True)
     capacity = models.IntegerField()
     altitude = models.IntegerField()
@@ -54,7 +54,7 @@ class Restaurant(models.model):
     def __str__(self):
         return self.name
 
-class Slope(models.model):
+class Slope(models.Model):
     geom = models.MultiPolygonField(srid=21781, null=True)
     difficulty = models.IntegerField()
     altstart = models.IntegerField()
