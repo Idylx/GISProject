@@ -31,12 +31,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'skiResortNax.apps.SkiresortnaxConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
+    'leaflet'
 ]
 
 MIDDLEWARE = [
@@ -76,8 +79,15 @@ WSGI_APPLICATION = 'GISProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'SkiResortDB',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -106,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Zurich'
 
 USE_I18N = True
 
@@ -119,3 +129,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LEAFLET_CONFIG ={
+    'MIN_ZOOM':3,
+    'MAX_ZOOM':15,
+    'DEFAULT_ZOOM':7,
+    'DEFAULT_CENTER': (46.7,8),
+  #  'SRID': 21781,
+}
+
+GDAL_LIBRARY_PATH = 'C:\\OSGeo4W64\\bin\\gdal111.dll'
