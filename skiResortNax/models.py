@@ -56,7 +56,7 @@ class Restaurant(models.Model):
 
 class Slope(models.Model):
     geom = models.MultiPolygonField(srid=21781, null=True)
-    difficulty = models.IntegerField()
+    difficulty =  models.CharField(max_length=50)
     altstart = models.IntegerField()
     altarrival = models.IntegerField()
     difheight = models.IntegerField()
