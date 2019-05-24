@@ -19,7 +19,7 @@ def infos(request):
 
 def slopesdata(request):
     slopes = Slope.objects.all()
-    ser = serialize('geojson', slopes, geometry_field='geom', fields=('name', 'status',))
+    ser = serialize('geojson', slopes, geometry_field='geom', fields=('name', 'statrus',))
 
     return HttpResponse(ser)
 

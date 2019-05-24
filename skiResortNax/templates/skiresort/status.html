@@ -36,8 +36,15 @@
         }
 
         function onEachFeature(feature, layer) {
-            if (feature.properties && feature.properties.status) {
-               layer.bindPopup(feature.properties.status);
+            if (feature.properties && (feature.properties.statrus || feature.properties.status)) {
+                if(feature.properties.statrus){
+                    var status = feature.properties.statrus
+                }
+                else{
+                    var status = feature.properties.status
+                }
+                
+               layer.bindPopup(status);
             }
 
         }
