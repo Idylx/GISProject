@@ -7,6 +7,13 @@
     {% leaflet_css %}
 
     <h1>Informations</h1>
+    <div id="color">
+    <div id="slope">Slopes</div>
+    <div id="lift">Lifts</div>
+    <div id="grenouillere">Grenouillères</div>
+    <div id="restaurant">Restaurants</div>
+    <div id="parking">Parkings</div>
+    </div>
 <div id="map">{% leaflet_map "slopes" callback="main_map_init" %}</div>
 
 
@@ -34,11 +41,57 @@
             });
         }
 
-        function onEachFeature(feature, layer) {
-            if (feature.properties && feature.properties.name) {
-               layer.bindPopup(feature.properties.name);
+        function getColor(feature) {
+            //slopes
+            if (feature.properties && feature.properties.statrus) {
+                return "#33AFFF";
             }
+            //restaurants
+            if (feature.properties && feature.properties.name && feature.properties.capacity) {
+                return "#F1C40F";
+            }
+            //grenouillères
+            if (feature.properties && feature.properties.nbrperson) {
+                return "#6C3483";
+            }
+            //parkings
+            if (feature.properties && feature.properties.capacity && !feature.properties.name && !feature.properties.nbrperson) {
+                return "#28B463";
+            }
+            //lifts
+            if (feature.properties && feature.properties.avgqueue) {
+                return "#ff0000";
+            }
+        }
 
+        function style(feature) {
+            return {
+            fillColor: getColor(feature),
+            color :getColor(feature) };
+        }
+
+        function onEachFeature(feature, layer) {
+            //slopes
+            if (feature.properties && feature.properties.statrus) {
+               layer.bindPopup("<h5>Slope</h5>"+ "<br />" + "Name: " + feature.properties.name+ "<br />" + "Difficulty: " + feature.properties.difficulty + "<br />" + "Status: " +feature.properties.statrus + "<br />" + "Starting altitude: " + feature.properties.altstart + " meters" + "<br />" + "Arrival altitude: "+ feature.properties.altarrival + " meters" + "<br />" + "Drop in altitude: " + feature.properties.difheight + " meters");
+            }
+            //restaurants
+            if (feature.properties && feature.properties.name && feature.properties.capacity) {
+               layer.bindPopup("<h5>Restaurant</h5>"+ "<br />" + "Name: " + feature.properties.name+ "<br />" + "Status: " +feature.properties.status + "<br />" + "Capacity: " +feature.properties.capacity + " persons" + "<br />" + "Altitude: " +feature.properties.altitude + " meters");
+            }
+            //grenouillères
+            if (feature.properties && feature.properties.nbrperson) {
+               layer.bindPopup("<h5>Grenouillère</h5>"+ "<br />" + "Status: " +feature.properties.status + "<br />" + "Type: " +feature.properties.type + "<br />" + "Number of person: " +feature.properties.nbrperson + " persons" + "<br />" + "Capacity: " +feature.properties.capacity +" persons" +  "<br />" + "Altitude: " +feature.properties.altitude + " meters");
+            }
+            //parkings
+            if (feature.properties && feature.properties.capacity && !feature.properties.name && !feature.properties.nbrperson) {
+               layer.bindPopup("<h5>Parking</h5>"+ "<br />" + "Status: " +feature.properties.status + "<br />" + "Capacity: " +feature.properties.capacity+ " cars" + "<br />" + "Altitude: " +feature.properties.altitude + " meters");
+            }
+            //lifts
+            if (feature.properties && feature.properties.avgqueue) {
+               layer.bindPopup("<h5>Lift</h5>"+ "<br />" + "Name: " + feature.properties.name+ "<br />" +"Status: " +feature.properties.status + "<br />" + "Starting altitude: " + feature.properties.altstart + " meters" + "<br />" + "Arrival altitude: "+ feature.properties.altarrival + " meters" + "<br />" + "Length: " + feature.properties.length + " meters"  + "<br />" + "Max flow: " + feature.properties.maxflow + " persons/hours" + "<br />" + "Number of places: " + feature.properties.seatchair);
+            }
+            layer.setStyle(style(feature));
         }
     </script>
 

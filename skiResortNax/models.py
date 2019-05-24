@@ -7,7 +7,7 @@ class Grenouillere(models.Model):
     geom = models.MultiPolygonField(srid=21781, null=True)
     capacity = models.IntegerField()
     altitude = models.IntegerField()
-    nbrperson = models.IntegerField()
+    nbrperson = models.IntegerField() #lui
     type = models.CharField(max_length=50)
     status = models.CharField(max_length=50)
 
@@ -17,7 +17,7 @@ class Grenouillere(models.Model):
 
 class Lift(models.Model):
     geom = models.MultiPolygonField(srid=21781, null=True)
-    avgqueue = models.IntegerField()
+    avgqueue = models.IntegerField() #lui
     altstart = models.IntegerField()
     altarrival = models.IntegerField()
     maxflow = models.IntegerField()
@@ -43,10 +43,10 @@ class Parking(models.Model):
 
 class Restaurant(models.Model):
     geom = models.MultiPolygonField(srid=21781, null=True)
-    capacity = models.IntegerField()
+    capacity = models.IntegerField() #lui
     altitude = models.IntegerField()
     status = models.CharField(max_length=50)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50) #lui
 
     class Meta:
         db_table = "restaurants"
@@ -60,7 +60,7 @@ class Slope(models.Model):
     altstart = models.IntegerField()
     altarrival = models.IntegerField()
     difheight = models.IntegerField()
-    statrus = models.CharField(max_length=50)
+    statrus = models.CharField(max_length=50) #lui
     name = models.CharField(max_length=50)
 
     class Meta:
