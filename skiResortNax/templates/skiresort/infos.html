@@ -16,6 +16,22 @@
             $.getJSON(dataurl, function (data){
                L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
             });
+            var restoaurl = '{% url "restaurantsdata" %}'
+            $.getJSON(restoaurl, function (data){
+               L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
+            });
+            var grenurl = '{% url "grenouilleresdata" %}'
+            $.getJSON(grenurl, function (data){
+               L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
+            });
+            var parkurl = '{% url "parkingsdata" %}'
+            $.getJSON(parkurl, function (data){
+               L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
+            });
+            var lifturl = '{% url "liftsdata" %}'
+            $.getJSON(lifturl, function (data){
+               L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
+            });
         }
 
         function onEachFeature(feature, layer) {
