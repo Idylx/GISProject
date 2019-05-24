@@ -1,7 +1,29 @@
 {% extends "index.html" %}
+{% load leaflet_tags %}
 {% block title %}{% endblock %}
 {% block content %}
 
-    infos
+    {% leaflet_js %}
+    {% leaflet_css %}
+
+    Info
+<div id="map">{% leaflet_map "slopes" callback="main_map_init" %}</div>
+
+
+    <script type="text/javascript">
+        function main_map_init (map, options) {
+            var dataurl = '{% url "slopesdata" %}'
+            $.getJSON(dataurl, function (data){
+               L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
+            });
+        }
+
+        function onEachFeature(feature, layer) {
+            if (feature.properties && feature.properties.name) {
+               layer.bindPopup(feature.properties.name);
+            }
+
+        }
+    </script>
 
 {% endblock %}

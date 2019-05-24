@@ -7,8 +7,8 @@
     {% leaflet_css %}
 
     Difficulty
+<div id="map">{% leaflet_map "slopes" callback="main_map_init" %}</div>
 
-    {% leaflet_map "slopes" callback="main_map_init" %}
 
     <script type="text/javascript">
         function main_map_init (map, options) {
