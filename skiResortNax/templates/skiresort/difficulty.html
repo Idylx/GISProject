@@ -7,7 +7,7 @@
     {% leaflet_css %}
 
     <h1>Difficulty</h1>
-<div id="map">{% leaflet_map "slopes" callback="main_map_init" %}</div>
+    <div id="map">{% leaflet_map "slopes" callback="main_map_init" %}</div>
 
 
 
@@ -15,14 +15,31 @@
         function main_map_init (map, options) {
             var dataurl = '{% url "slopesdata" %}'
             $.getJSON(dataurl, function (data){
-               L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
+                L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
             });
+        }
+
+
+        function getColor(d) {
+            switch (d) {
+                case 'Blue':
+                    return "#33AFFF";
+                case 'Red':
+                    return "#ff0000";
+            }
+        }
+
+        function style(feature) {
+            return {
+            fillColor: getColor(feature.properties.difficulty),
+            color :getColor(feature.properties.difficulty) };
         }
 
         function onEachFeature(feature, layer) {
             if (feature.properties && feature.properties.name) {
-               layer.bindPopup(feature.properties.name);
+                layer.bindPopup(feature.properties.name);
             }
+            layer.setStyle(style(feature));
 
         }
     </script>
