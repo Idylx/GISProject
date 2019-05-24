@@ -19,30 +19,30 @@ def infos(request):
 
 def slopesdata(request):
     slopes = Slope.objects.all()
-    ser = serialize('geojson', slopes, geometry_field='geom', fields=('name', 'statrus',))
+    ser = serialize('geojson', slopes, geometry_field='geom', fields=('name', 'statrus', 'difficulty', 'altstart', 'altarrival', 'difheight', ))
 
     return HttpResponse(ser)
 
 def restaurantsdata(request):
     restaurants = Restaurant.objects.all()
-    ser = serialize('geojson', restaurants, geometry_field='geom', fields=('name',))
+    ser = serialize('geojson', restaurants, geometry_field='geom', fields=('name', 'status', 'altitude', 'capacity'))
 
     return HttpResponse(ser)
 
 def grenouilleresdata(request):
     grenouilleres = Grenouillere.objects.all()
-    ser = serialize('geojson', grenouilleres, geometry_field='geom', fields=('status',))
+    ser = serialize('geojson', grenouilleres, geometry_field='geom', fields=('status', 'capacity', 'altitude', 'nbrperson', 'type', ))
 
     return HttpResponse(ser)
 
 def parkingsdata(request):
     parkings = Parking.objects.all()
-    ser = serialize('geojson', parkings, geometry_field='geom', fields=('status',))
+    ser = serialize('geojson', parkings, geometry_field='geom', fields=('status', 'altitude', 'capacity'))
 
     return HttpResponse(ser)
 
 def liftsdata(request):
     lifts = Lift.objects.all()
-    ser = serialize('geojson', lifts, geometry_field='geom', fields=('name',))
+    ser = serialize('geojson', lifts, geometry_field='geom', fields=('name', 'status', 'length', 'avgqueue', 'altstart', 'altarrival', 'maxflow', 'seatchair'))
 
     return HttpResponse(ser)
