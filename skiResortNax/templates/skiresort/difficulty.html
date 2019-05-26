@@ -6,42 +6,86 @@
     {% leaflet_js %}
     {% leaflet_css %}
 
+
     <h1>Difficulty</h1>
+
+
+    <button id="btnBlue" style="background-color: white; padding: 14px 28px; font-size: 16px; cursor: pointer;   border-color: #2196F3; color: dodgerblue">
+       Show me blue Slopes</button>
+     <button id="btnRed" style="background-color: white; padding: 14px 28px; font-size: 16px; cursor: pointer;   border-color: #f44336; color: red">
+       Show me red Slopes</button>
+
+
     <div id="map">{% leaflet_map "slopes" callback="main_map_init" %}</div>
 
-
-
     <script type="text/javascript">
+
+        let isPressedBlue = false;
+        let isPressedRed = false;
+
         function main_map_init (map, options) {
             var dataurl = '{% url "slopesdata" %}'
             $.getJSON(dataurl, function (data){
+
                 L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
             });
         }
 
 
-        function getColor(d) {
-            switch (d) {
+        function getColor(c) {
+            switch (c) {
                 case 'Blue':
                     return "#33AFFF";
                 case 'Red':
                     return "#ff0000";
+                case 'Grey':
+                 return "#d5d5d5";
             }
         }
 
-        function style(feature) {
+        function style(color) {
             return {
-            fillColor: getColor(feature.properties.difficulty),
-            color :getColor(feature.properties.difficulty) };
+            fillColor: getColor(color),
+            color :getColor(color) };
         }
 
         function onEachFeature(feature, layer) {
             if (feature.properties && feature.properties.name) {
                 layer.bindPopup(feature.properties.name);
+
+
             }
-            layer.setStyle(style(feature));
+             layer.setStyle(style("Grey"));
+
+            console.log("hello");
+
+            document.getElementById("btnRed").addEventListener("click", function(){
+                if (feature.properties.difficulty === "Red"){
+                    if (isPressedRed === false){
+                          layer.setStyle(style("Red"));
+
+                    }
+                    else {
+                        layer.setStyle(style("Grey"));
+                    }
+                }
+
+            });
+            document.getElementById("btnBlue").addEventListener("click", function(){
+                if (feature.properties.difficulty === "Blue") {
+                    if (isPressedBlue === false){
+                          layer.setStyle(style("Blue"));
+                    }
+                    else {
+                        layer.setStyle(style("Grey"));
+                    }
+                }
+            });
+
 
         }
+
+
     </script>
 
 {% endblock %}
