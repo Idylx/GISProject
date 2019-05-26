@@ -60,24 +60,36 @@
             console.log("hello");
 
             document.getElementById("btnRed").addEventListener("click", function(){
-                if (feature.properties.difficulty === "Red"){
-                    if (isPressedRed === false){
-                          layer.setStyle(style("Red"));
+                    if (feature.properties.difficulty === "Red") {
 
+                        if (isPressedRed === false) {
+                            layer.setStyle(style("Red"));
+                            if(feature.properties.name === "Ecureuil"){
+                                isPressedRed=true;
+                            }
+
+                        } else {
+                            layer.setStyle(style("Grey"));
+                            if(feature.properties.name === "Ecureuil"){
+                                isPressedRed=false;
+                            }
+                        }
                     }
-                    else {
-                        layer.setStyle(style("Grey"));
-                    }
-                }
 
             });
             document.getElementById("btnBlue").addEventListener("click", function(){
                 if (feature.properties.difficulty === "Blue") {
                     if (isPressedBlue === false){
                           layer.setStyle(style("Blue"));
+                          if(feature.properties.name === "DzorToVach"){
+                                isPressedBlue=true;
+                            }
                     }
                     else {
                         layer.setStyle(style("Grey"));
+                        if(feature.properties.name === "DzorToVach"){
+                                isPressedBlue=false;
+                            }
                     }
                 }
             });
