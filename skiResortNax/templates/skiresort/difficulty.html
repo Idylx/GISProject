@@ -9,25 +9,29 @@
 
     <h1>Difficulty</h1>
 
-
-    <button id="btnBlue" style="background-color: white; padding: 14px 28px; font-size: 16px; cursor: pointer;   border-color: #2196F3; color: dodgerblue">
-       Show me blue Slopes</button>
-     <button id="btnRed" style="background-color: white; padding: 14px 28px; font-size: 16px; cursor: pointer;   border-color: #f44336; color: red">
-       Show me red Slopes</button>
-
-
     <div id="map">{% leaflet_map "slopes" callback="main_map_init" %}</div>
 
     <script type="text/javascript">
 
-        let isPressedBlue = false;
-        let isPressedRed = false;
+
+        var redGroup = L.layerGroup();
+        var blueGroup = L.layerGroup();
+
 
         function main_map_init (map, options) {
             var dataurl = '{% url "slopesdata" %}'
             $.getJSON(dataurl, function (data){
 
-                L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+                var layer = L.geoJson(data, {onEachFeature: onEachFeature});
+
+                L.control.layers(null, {
+                    "Red slopes" : redGroup,
+                    "Blue slopes" : blueGroup
+                },
+                    {collapsed: false}
+                ).addTo(map);
+
+
             });
         }
 
@@ -49,50 +53,21 @@
             color :getColor(color) };
         }
 
+
         function onEachFeature(feature, layer) {
             if (feature.properties && feature.properties.name) {
                 layer.bindPopup(feature.properties.name);
 
-
             }
              layer.setStyle(style("Grey"));
 
-            console.log("hello");
-
-            document.getElementById("btnRed").addEventListener("click", function(){
-                    if (feature.properties.difficulty === "Red") {
-
-                        if (isPressedRed === false) {
-                            layer.setStyle(style("Red"));
-                            if(feature.properties.name === "Ecureuil"){
-                                isPressedRed=true;
-                            }
-
-                        } else {
-                            layer.setStyle(style("Grey"));
-                            if(feature.properties.name === "Ecureuil"){
-                                isPressedRed=false;
-                            }
-                        }
-                    }
-
-            });
-            document.getElementById("btnBlue").addEventListener("click", function(){
-                if (feature.properties.difficulty === "Blue") {
-                    if (isPressedBlue === false){
-                          layer.setStyle(style("Blue"));
-                          if(feature.properties.name === "DzorToVach"){
-                                isPressedBlue=true;
-                            }
-                    }
-                    else {
-                        layer.setStyle(style("Grey"));
-                        if(feature.properties.name === "DzorToVach"){
-                                isPressedBlue=false;
-                            }
-                    }
-                }
-            });
+            if (feature.properties.difficulty === "Red"){
+                redGroup.addLayer(layer);
+                  layer.setStyle(style("Red"));
+            }else{
+                blueGroup.addLayer(layer);
+                 layer.setStyle(style("Blue"));
+            }
 
 
         }
