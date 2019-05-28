@@ -3,7 +3,7 @@
 {% block title %}{% endblock %}
 {% block content %}
 
-
+    <!-- Import leaflet -->
      {% leaflet_js %}
     {% leaflet_css %}
 
@@ -12,40 +12,127 @@
 
 
     <script type="text/javascript">
+
+        // create the map
         function main_map_init (map, options) {
+            // get the url of the data for the slopes
             var dataurl = '{% url "slopesdata" %}'
             $.getJSON(dataurl, function (data){
+                // create each feature on the map
                L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
             });
+             // get the url of the data for the restaurant
             var restoaurl = '{% url "restaurantsdata" %}'
             $.getJSON(restoaurl, function (data){
+                 // create each feature on the map
                L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
             });
+             // get the url of the data for the grenouilleres
             var grenurl = '{% url "grenouilleresdata" %}'
             $.getJSON(grenurl, function (data){
+                 // create each feature on the map
                L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
             });
+             // get the url of the data for the parkings
             var parkurl = '{% url "parkingsdata" %}'
             $.getJSON(parkurl, function (data){
+                 // create each feature on the map
                L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
             });
+             // get the url of the data for the lifts
             var lifturl = '{% url "liftsdata" %}'
             $.getJSON(lifturl, function (data){
+                 // create each feature on the map
                L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
             });
         }
 
-        function onEachFeature(feature, layer) {
-            if (feature.properties && (feature.properties.statrus || feature.properties.status)) {
-                if(feature.properties.statrus){
-                    var status = feature.properties.statrus
+        // get the color for a feature depending if it is open (green) or close (red)
+        function getColor(feature) {
+            //slopes
+            if (feature.properties && feature.properties.statrus) {
+                color = "#28B463";
+                // if they or close, set it to red
+                if (feature.properties.statrus === "Close") {
+                    color = "#ff0000";
                 }
-                else{
-                    var status = feature.properties.status
-                }
-                
-               layer.bindPopup(status);
+                return color;
             }
+
+            //restaurants
+            if (feature.properties && feature.properties.name && feature.properties.capacity) {
+                color = "#28B463";
+                 // if they or close, set it to red
+                if (feature.properties.status === "Close") {
+                    color = "#ff0000";
+                }
+                return color;
+            }
+            //grenouillères
+            if (feature.properties && feature.properties.nbrperson) {
+                color = "#28B463";
+                 // if they or close, set it to red
+                if (feature.properties.status  === "Close") {
+                    color = "#ff0000";
+                }
+                return color;
+            }
+            //parkings
+            if (feature.properties && feature.properties.capacity && !feature.properties.name && !feature.properties.nbrperson) {
+                color = "#28B463";
+                if (feature.properties.status === "Close") {
+                     // if they or close, set it to red
+                    color = "#ff0000";
+                }
+                return color;
+            }
+            //lifts
+            if (feature.properties && feature.properties.avgqueue) {
+                color = "#28B463";
+                 // if they or close, set it to red
+                if (feature.properties.status === "Close") {
+                    color = "#ff0000";
+                }
+                return color;
+            }
+        }
+
+        // set the style of each feature
+        function style(feature) {
+            return {
+            fillColor: getColor(feature),
+            color :getColor(feature) };
+        }
+
+        // loop on each feature on the map
+        function onEachFeature(feature, layer) {
+             //slopes
+            if (feature.properties && feature.properties.statrus) {
+                // display information of the slopes
+               layer.bindPopup("<h5>Slope</h5>"+ "<br />" + "Name: " + feature.properties.name+ "<br />" + "Difficulty: " + feature.properties.difficulty + "<br />" + "Status: " +feature.properties.statrus);
+            }
+            //restaurants
+            if (feature.properties && feature.properties.name && feature.properties.capacity) {
+                // display information of the restaurants
+                layer.bindPopup("<h5>Restaurant</h5>"+ "<br />" + "Name: " + feature.properties.name+ "<br />" + "Status: " +feature.properties.status + "<br />");
+            }
+            //grenouillères
+            if (feature.properties && feature.properties.nbrperson) {
+                 // display information of the grenouillères
+               layer.bindPopup("<h5>Grenouillère</h5>"+ "<br />" + "Status: " +feature.properties.status );
+            }
+            //parkings
+            if (feature.properties && feature.properties.capacity && !feature.properties.name && !feature.properties.nbrperson) {
+                 // display information of the parkings
+                layer.bindPopup("<h5>Parking</h5>"+ "<br />" + "Status: " +feature.properties.status);
+            }
+            //lifts
+            if (feature.properties && feature.properties.avgqueue) {
+                 // display information of the lifts
+               layer.bindPopup("<h5>Lift</h5>"+ "<br />" + "Name: " + feature.properties.name+ "<br />" +"Status: " +feature.properties.status );
+            }
+            // set the style of the feature
+            layer.setStyle(style(feature));
 
         }
     </script>

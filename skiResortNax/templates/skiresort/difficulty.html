@@ -3,6 +3,7 @@
 {% block title %}{% endblock %}
 {% block content %}
 
+    <!-- Import leaflet -->
     {% leaflet_js %}
     {% leaflet_css %}
 
@@ -13,17 +14,21 @@
 
     <script type="text/javascript">
 
-
+        // Create a group for all red slopes
         var redGroup = L.layerGroup();
+        // Create a group for all blue slopes
         var blueGroup = L.layerGroup();
 
-
+        // init the map
         function main_map_init (map, options) {
+            // Get the url of the data of the slpes
             var dataurl = '{% url "slopesdata" %}'
             $.getJSON(dataurl, function (data){
 
+                // Create the polygon on the map
                 var layer = L.geoJson(data, {onEachFeature: onEachFeature});
 
+                // Create 2 buttons on the map for blue and red slopes and add it to the map
                 L.control.layers(null, {
                     "Red slopes" : redGroup,
                     "Blue slopes" : blueGroup
@@ -35,44 +40,46 @@
             });
         }
 
-
+        // Get the color
         function getColor(c) {
             switch (c) {
                 case 'Blue':
                     return "#33AFFF";
                 case 'Red':
                     return "#ff0000";
-                case 'Grey':
-                 return "#d5d5d5";
             }
         }
 
+        // Define the style of the slopes
         function style(color) {
             return {
             fillColor: getColor(color),
             color :getColor(color) };
         }
 
-
+        // Loop on each feature
         function onEachFeature(feature, layer) {
+
+            // Create a pop up with the name, the difficulty and the status of each slope
             if (feature.properties && feature.properties.name) {
-                layer.bindPopup(feature.properties.name);
+               layer.bindPopup("<h5>Slope</h5>"+ "<br />" + "Name: " + feature.properties.name+ "<br />" + "Difficulty: " + feature.properties.difficulty + "<br />" + "Current status: " +feature.properties.statrus);
 
             }
-             layer.setStyle(style("Grey"));
 
+            // if the difficulty of the slope is red
             if (feature.properties.difficulty === "Red"){
+                // add this slope to the red group
                 redGroup.addLayer(layer);
-                  layer.setStyle(style("Red"));
-            }else{
+                // set the style
+                layer.setStyle(style("Red"));
+            }else {
+                // if the difficulty of the slope is red
+                // add this slope to the blue group
                 blueGroup.addLayer(layer);
-                 layer.setStyle(style("Blue"));
+                // set the style
+                layer.setStyle(style("Blue"));
             }
-
-
         }
-
-
     </script>
 
 {% endblock %}

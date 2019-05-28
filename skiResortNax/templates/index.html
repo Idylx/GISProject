@@ -17,6 +17,7 @@
         padding: 0px;
         margin: 0px;
     }
+
     #color {
         display: flex;
         width:  80%;
@@ -65,9 +66,6 @@
         height: 50em;
         margin-left: 10%;
         margin-right: 10%;
-
-
-
     }
 </style>
 
@@ -75,6 +73,7 @@
 </head>
 <body>
 <div>
+    <!-- Create a nav bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="/infos">Ski resort Nax</a>
@@ -83,15 +82,18 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+              <!-- Informations page -->
             <div class="collapse navbar-collapse" id="navbarsExample07">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="/infos">Informations<span
                                 class="sr-only">(current)</span></a>
                     </li>
+                      <!-- Status page -->
                     <li class="nav-item active">
                         <a class="nav-link" href="/status">Status<span class="sr-only">(current)</span></a>
                     </li>
+                      <!-- Difficulty page -->
                     <li class="nav-item active">
                         <a class="nav-link" href="/difficulty">Difficulty<span
                                 class="sr-only">(current)</span></a>
@@ -101,6 +103,7 @@
         </div>
     </nav>
 </div>
+  <!-- Create a bloc for the content of each page -->
 <div id="content">
     {% block content %}
     {% endblock %}

@@ -19,28 +19,39 @@
 
     <script type="text/javascript">
         function main_map_init (map, options) {
+            // Get the url of the data for the slopes
             var dataurl = '{% url "slopesdata" %}'
             $.getJSON(dataurl, function (data){
+                 // create each feature on the map
                L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
             });
+             // Get the url of the data for the restaurants
             var restoaurl = '{% url "restaurantsdata" %}'
             $.getJSON(restoaurl, function (data){
+                 // create each feature on the map
                L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
             });
+             // Get the url of the data for the grenouillères
             var grenurl = '{% url "grenouilleresdata" %}'
             $.getJSON(grenurl, function (data){
+                 // create each feature on the map
                L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
             });
+             // Get the url of the data for the parking
             var parkurl = '{% url "parkingsdata" %}'
             $.getJSON(parkurl, function (data){
+                 // create each feature on the map
                L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
             });
+             // Get the url of the data for the lift
             var lifturl = '{% url "liftsdata" %}'
             $.getJSON(lifturl, function (data){
+                 // create each feature on the map
                L.geoJson(data,{onEachFeature: onEachFeature}).addTo(map);
             });
         }
 
+        // Get the color for the feature
         function getColor(feature) {
             //slopes
             if (feature.properties && feature.properties.statrus) {
@@ -64,6 +75,7 @@
             }
         }
 
+        // return the style of the feature
         function style(feature) {
             return {
             fillColor: getColor(feature),
@@ -73,24 +85,30 @@
         function onEachFeature(feature, layer) {
             //slopes
             if (feature.properties && feature.properties.statrus) {
+                 // display information of the slopes
                layer.bindPopup("<h5>Slope</h5>"+ "<br />" + "Name: " + feature.properties.name+ "<br />" + "Difficulty: " + feature.properties.difficulty + "<br />" + "Status: " +feature.properties.statrus + "<br />" + "Starting altitude: " + feature.properties.altstart + " meters" + "<br />" + "Arrival altitude: "+ feature.properties.altarrival + " meters" + "<br />" + "Drop in altitude: " + feature.properties.difheight + " meters");
             }
             //restaurants
             if (feature.properties && feature.properties.name && feature.properties.capacity) {
-               layer.bindPopup("<h5>Restaurant</h5>"+ "<br />" + "Name: " + feature.properties.name+ "<br />" + "Status: " +feature.properties.status + "<br />" + "Capacity: " +feature.properties.capacity + " persons" + "<br />" + "Altitude: " +feature.properties.altitude + " meters");
+                // display information of the restaurants
+                layer.bindPopup("<h5>Restaurant</h5>"+ "<br />" + "Name: " + feature.properties.name+ "<br />" + "Status: " +feature.properties.status + "<br />" + "Capacity: " +feature.properties.capacity + " persons" + "<br />" + "Altitude: " +feature.properties.altitude + " meters");
             }
             //grenouillères
             if (feature.properties && feature.properties.nbrperson) {
-               layer.bindPopup("<h5>Grenouillère</h5>"+ "<br />" + "Status: " +feature.properties.status + "<br />" + "Type: " +feature.properties.type + "<br />" + "Number of person: " +feature.properties.nbrperson + " persons" + "<br />" + "Capacity: " +feature.properties.capacity +" persons" +  "<br />" + "Altitude: " +feature.properties.altitude + " meters");
+                // display information of the grenouillères
+                layer.bindPopup("<h5>Grenouillère</h5>"+ "<br />" + "Status: " +feature.properties.status + "<br />" + "Type: " +feature.properties.type + "<br />" + "Number of person: " +feature.properties.nbrperson + " persons" + "<br />" + "Capacity: " +feature.properties.capacity +" persons" +  "<br />" + "Altitude: " +feature.properties.altitude + " meters");
             }
             //parkings
             if (feature.properties && feature.properties.capacity && !feature.properties.name && !feature.properties.nbrperson) {
-               layer.bindPopup("<h5>Parking</h5>"+ "<br />" + "Status: " +feature.properties.status + "<br />" + "Capacity: " +feature.properties.capacity+ " cars" + "<br />" + "Altitude: " +feature.properties.altitude + " meters");
+                // display information of the parkings
+                layer.bindPopup("<h5>Parking</h5>"+ "<br />" + "Status: " +feature.properties.status + "<br />" + "Capacity: " +feature.properties.capacity+ " cars" + "<br />" + "Altitude: " +feature.properties.altitude + " meters");
             }
             //lifts
             if (feature.properties && feature.properties.avgqueue) {
+                 // display information of the lifts
                layer.bindPopup("<h5>Lift</h5>"+ "<br />" + "Name: " + feature.properties.name+ "<br />" +"Status: " +feature.properties.status + "<br />" + "Starting altitude: " + feature.properties.altstart + " meters" + "<br />" + "Arrival altitude: "+ feature.properties.altarrival + " meters" + "<br />" + "Length: " + feature.properties.length + " meters"  + "<br />" + "Max flow: " + feature.properties.maxflow + " persons/hours" + "<br />" + "Number of places: " + feature.properties.seatchair);
             }
+            // set the style of the feature
             layer.setStyle(style(feature));
         }
     </script>
