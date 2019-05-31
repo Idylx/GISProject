@@ -3,7 +3,7 @@ from django.contrib.gis.db import models
 
 # Model Grenouillere
 class Grenouillere(models.Model):
-    geom = models.MultiPolygonField(srid=21781, null=True)
+    geom = models.MultiPolygonField(srid=3857, null=True)
     capacity = models.IntegerField()
     altitude = models.IntegerField()
     nbrperson = models.IntegerField() #lui
@@ -15,7 +15,7 @@ class Grenouillere(models.Model):
 
 # Model lift
 class Lift(models.Model):
-    geom = models.MultiPolygonField(srid=21781, null=True)
+    geom = models.MultiPolygonField(srid=3857, null=True)
     avgqueue = models.IntegerField() #lui
     altstart = models.IntegerField()
     altarrival = models.IntegerField()
@@ -33,7 +33,7 @@ class Lift(models.Model):
 
 # Model Parking
 class Parking(models.Model):
-    geom = models.MultiPolygonField(srid=21781, null=True)
+    geom = models.MultiPolygonField(srid=3857, null=True)
     capacity = models.IntegerField()
     altitude = models.IntegerField()
     status = models.CharField(max_length=50)
@@ -43,7 +43,7 @@ class Parking(models.Model):
 
 # Model Restaurant
 class Restaurant(models.Model):
-    geom = models.MultiPolygonField(srid=21781, null=True)
+    geom = models.MultiPolygonField(srid=3857, null=True)
     capacity = models.IntegerField() #lui
     altitude = models.IntegerField()
     status = models.CharField(max_length=50)
@@ -57,7 +57,7 @@ class Restaurant(models.Model):
 
 # Model slopes
 class Slope(models.Model):
-    geom = models.MultiPolygonField(srid=21781, null=True)
+    geom = models.MultiPolygonField(srid=3857, null=True)
     difficulty =  models.CharField(max_length=50)
     altstart = models.IntegerField()
     altarrival = models.IntegerField()
